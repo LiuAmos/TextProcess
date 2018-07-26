@@ -30,31 +30,44 @@ if (!$fp=fopen("test.txt","r")){
 	exit;
 }
 //echo $fp;
-$array_merge=array("AA");
-//$rule = '/[\x{4e00}-\x{9fa5}|\w]/u';
+$array_merge=array("");
+//中文標點符號
+$char = "。、！？：；﹑•＂…‘’“”〝〞∕¦‖—　〈〉﹞﹝「」‹›〖〗】【»«』『〕〔》《﹐¸﹕︰﹔！¡？¿﹖﹌﹏﹋＇´ˊˋ―﹫︳︴¯＿￣﹢﹦﹤‐­˜﹟﹩﹠﹪﹡﹨﹍﹉﹎﹊ˇ︵︶︷︸︹︿﹀︺︽︾ˉ﹁﹂﹃﹄︻︼（）";
+$pattern = array(
+    "/[[:punct:]]/i", //英文标点符号
+    '/['.$char.']/u', //中文标点符号
+    '/[ ]{2,}/'
+);
+// $string="diwmd,spoa:sko";
+// echo $string."<br>";
+// $string=preg_replace ($pattern,'',$string);
+// echo $string."<br>";
+// echo"-------------------";
 //preg_replace ( $pattern , $replacement ,$subject);
 //
 while (!feof($fp)){
 	$str=fgets($fp);
 	$str = iconv("BIG5","UTF-8", $str);
+	//preg_replace ($rule,'',$str);
 	$str_explode=explode(" ",$str);
 	$len=count($str_explode);
 
 
-	$array_merge=array_merge($array_merge,$str_explode);
+	
 
 
 	for($i=0;$i<$len;$i++){
 	//echo $str_explode[$i]."<br>";
-
+		$str_explode[$i]=preg_replace ($pattern,'',$str_explode[$i]);
 	}
+	$array_merge=array_merge($array_merge,$str_explode);
 	
 
 	// echo"-------------------"."<br>";
 }
 
 sort($array_merge);
-echo"-------------------"."<br>";
+//echo"-------------------"."<br>";
 $len1=count($array_merge);
 for($j=0;$j<$len1;$j++){
 echo $array_merge[$j]."<br>";
