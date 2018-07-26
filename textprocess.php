@@ -53,12 +53,14 @@ while (!feof($fp)){
 	$len=count($str_explode);
 
 
+
 	
 
 
 	for($i=0;$i<$len;$i++){
 	//echo $str_explode[$i]."<br>";
-		$str_explode[$i]=preg_replace ($pattern,'',$str_explode[$i]);
+		$str_explode[$i]=preg_replace ($pattern,null,$str_explode[$i]);
+		$str_explode[$i]=trim($str_explode[$i]);
 	}
 	$array_merge=array_merge($array_merge,$str_explode);
 	
@@ -69,12 +71,17 @@ while (!feof($fp)){
 sort($array_merge);
 //echo"-------------------"."<br>";
 $len1=count($array_merge);
-for($j=0;$j<$len1;$j++){
+for($j=3;$j<$len1;$j++){
 echo $array_merge[$j]."<br>";
+$array_merge_nonemprty[$j-3]=$array_merge[$j];
 }
 echo"-------------------"."<br>";
-
-print_r(array_count_values ($array_merge));
+echo "<pre>";
+//print_r(array_count_values ($array_merge));
+print_r(array_count_values ($array_merge_nonemprty));
+echo "</pre>";
+//echo '<pre>',print_r(array_count_values ($array_merge)),'</pre>';
+//print_r(array_count_values ($array_merge));
 
 fclose($fp) ;
 
